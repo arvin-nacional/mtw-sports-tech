@@ -1,18 +1,22 @@
-import { Carousel } from 'components/carousel';
-import { ThreeItemGrid } from 'components/grid/three-items';
-import Footer from 'components/layout/footer';
+import { Carousel } from "components/carousel";
+import { EcosystemSolutions } from "components/ecosystem-solutions";
+import { ThreeItemGrid } from "components/grid/three-items";
+import { Hero } from "components/hero";
+import Footer from "components/layout/footer";
 
 export const metadata = {
   description:
-    'High-performance ecommerce store built with Next.js, Vercel, and Shopify.',
+    "High-performance ecommerce store built with Next.js, Vercel, and Shopify.",
   openGraph: {
-    type: 'website'
-  }
+    type: "website",
+  },
 };
 
 export default function HomePage() {
   return (
     <>
+      <Hero />
+      <EcosystemSolutions />
       <ThreeItemGrid />
       <Carousel />
       <Footer />

@@ -1,19 +1,27 @@
-import CartModal from 'components/cart/modal';
-import LogoSquare from 'components/logo-square';
-import { getMenu } from 'lib/shopify';
-import { Menu } from 'lib/shopify/types';
-import Link from 'next/link';
-import { Suspense } from 'react';
-import MobileMenu from './mobile-menu';
-import Search, { SearchSkeleton } from './search';
+import CartModal from "components/cart/modal";
+import LogoSquare from "components/logo-square";
+import { getMenu } from "lib/shopify";
+import { Menu } from "lib/shopify/types";
+import Link from "next/link";
+import { Suspense } from "react";
+import MobileMenu from "./mobile-menu";
+import Search, { SearchSkeleton } from "./search";
 
 const { SITE_NAME } = process.env;
 
 export async function Navbar() {
-  const menu = await getMenu('next-js-frontend-header-menu');
+  const menu = await getMenu("next-js-frontend-header-menu");
 
   return (
-    <nav className="relative flex items-center justify-between p-4 lg:px-6">
+    <nav
+      className="glass relative flex items-center justify-between p-4 lg:px-6"
+      style={{
+        borderBottom: "1px solid rgba(42,58,92,0.2)",
+        position: "sticky",
+        top: 0,
+        zIndex: 50,
+      }}
+    >
       <div className="block flex-none md:hidden">
         <Suspense fallback={null}>
           <MobileMenu menu={menu} />
@@ -27,7 +35,10 @@ export async function Navbar() {
             className="mr-2 flex w-full items-center justify-center md:w-auto lg:mr-6"
           >
             <LogoSquare />
-            <div className="ml-2 flex-none text-sm font-medium uppercase md:hidden lg:block">
+            <div
+              className="font-display ml-2 flex-none text-sm font-semibold uppercase tracking-widest md:hidden lg:block"
+              style={{ color: "var(--primary)" }}
+            >
               {SITE_NAME}
             </div>
           </Link>
@@ -38,7 +49,7 @@ export async function Navbar() {
                   <Link
                     href={item.path}
                     prefetch={true}
-                    className="text-neutral-500 underline-offset-4 hover:text-black hover:underline dark:text-neutral-400 dark:hover:text-neutral-300"
+                    className="nav-link underline-offset-4"
                   >
                     {item.title}
                   </Link>

@@ -1,31 +1,57 @@
-import Footer from 'components/layout/footer';
-import Collections from 'components/layout/search/collections';
-import FilterList from 'components/layout/search/filter';
-import { sorting } from 'lib/constants';
-import ChildrenWrapper from './children-wrapper';
-import { Suspense } from 'react';
+import Footer from "components/layout/footer";
+import Collections from "components/layout/search/collections";
+import FilterItemDropdown from "components/layout/search/filter/dropdown";
+import { sorting } from "lib/constants";
+import { Suspense } from "react";
+import ChildrenWrapper from "./children-wrapper";
 
 export default function SearchLayout({
-  children
+  children,
 }: {
   children: React.ReactNode;
 }) {
   return (
-    <>
-      <div className="mx-auto flex max-w-(--breakpoint-2xl) flex-col gap-8 px-4 pb-4 text-black md:flex-row dark:text-white">
-        <div className="order-first w-full flex-none md:max-w-[125px]">
+    <div style={{ backgroundColor: "var(--surface)", minHeight: "100vh" }}>
+      <div className="mx-auto flex max-w-(--breakpoint-2xl)">
+        {/* Left: Collections sidebar */}
+        <div
+          className="hidden w-[200px] flex-none px-4 py-8 md:block"
+          style={{
+            minHeight: "100vh",
+            backgroundColor: "var(--surface-container-low)",
+            borderRight: "1px solid rgba(42,58,92,0.2)",
+          }}
+        >
           <Collections />
         </div>
-        <div className="order-last min-h-screen w-full md:order-none">
+
+        {/* Middle: Product grid */}
+        <div className="flex-1 px-6 py-8">
+          <div className="mb-4 block md:hidden">
+            <Collections />
+          </div>
           <Suspense fallback={null}>
             <ChildrenWrapper>{children}</ChildrenWrapper>
           </Suspense>
         </div>
-        <div className="order-none flex-none md:order-last md:w-[125px]">
-          <FilterList list={sorting} title="Sort by" />
+
+        {/* Right: Sort column */}
+        <div
+          className="hidden w-[180px] flex-none px-4 py-8 md:block"
+          style={{ borderLeft: "1px solid rgba(42,58,92,0.2)" }}
+        >
+          <p
+            className="mb-4 text-[10px] font-semibold uppercase tracking-[0.2em]"
+            style={{ color: "var(--primary)", opacity: 0.6 }}
+          >
+            Sort by
+          </p>
+          <Suspense fallback={null}>
+            <FilterItemDropdown list={sorting} defaultOpen={true} />
+          </Suspense>
         </div>
       </div>
       <Footer />
-    </>
+    </div>
   );
 }
