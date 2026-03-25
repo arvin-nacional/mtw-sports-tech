@@ -3,6 +3,7 @@ import { EcosystemSolutions } from "components/ecosystem-solutions";
 import { ThreeItemGrid } from "components/grid/three-items";
 import { Hero } from "components/hero";
 import Footer from "components/layout/footer";
+import { ProductEcosystem } from "components/product-ecosystem";
 
 export const metadata = {
   description:
@@ -17,6 +18,7 @@ export default function HomePage() {
     <>
       <Hero />
       <EcosystemSolutions />
+      <ProductEcosystem />
       <ThreeItemGrid />
       <Carousel />
       <Footer />
