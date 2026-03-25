@@ -19,11 +19,14 @@ export function Gallery({
     imageIndex === 0 ? images.length - 1 : imageIndex - 1;
 
   const buttonClassName =
-    "h-full px-6 transition-all ease-in-out hover:scale-110 hover:text-teal-400 flex items-center justify-center text-neutral-400";
+    "h-full px-6 transition-all ease-in-out hover:scale-110 flex items-center justify-center";
 
   return (
     <form>
-      <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden">
+      <div
+        className="relative aspect-square h-full max-h-[520px] w-full overflow-hidden rounded-2xl"
+        style={{ backgroundColor: "var(--surface-container)" }}
+      >
         {images[imageIndex] && (
           <Image
             className="h-full w-full object-contain"
@@ -37,7 +40,14 @@ export function Gallery({
 
         {images.length > 1 ? (
           <div className="absolute bottom-[15%] flex w-full justify-center">
-            <div className="mx-auto flex h-11 items-center rounded-full border border-neutral-700 bg-neutral-900/90 text-neutral-400 backdrop-blur-sm">
+            <div
+              className="mx-auto flex h-11 items-center rounded-full backdrop-blur-sm"
+              style={{
+                backgroundColor: "var(--surface-container-high)",
+                border: "1px solid rgba(42,58,92,0.3)",
+                color: "var(--on-surface)",
+              }}
+            >
               <button
                 formAction={() => {
                   const newState = updateImage(previousImageIndex.toString());
@@ -45,10 +55,14 @@ export function Gallery({
                 }}
                 aria-label="Previous product image"
                 className={buttonClassName}
+                style={{ color: "var(--on-surface)", opacity: 0.7 }}
               >
                 <ArrowLeftIcon className="h-5" />
               </button>
-              <div className="mx-1 h-6 w-px bg-neutral-500"></div>
+              <div
+                className="mx-1 h-6 w-px"
+                style={{ backgroundColor: "rgba(42,58,92,0.4)" }}
+              ></div>
               <button
                 formAction={() => {
                   const newState = updateImage(nextImageIndex.toString());
@@ -56,6 +70,7 @@ export function Gallery({
                 }}
                 aria-label="Next product image"
                 className={buttonClassName}
+                style={{ color: "var(--on-surface)", opacity: 0.7 }}
               >
                 <ArrowRightIcon className="h-5" />
               </button>
@@ -65,7 +80,7 @@ export function Gallery({
       </div>
 
       {images.length > 1 ? (
-        <ul className="my-12 flex items-center flex-wrap justify-center gap-2 overflow-auto py-1 lg:mb-0">
+        <ul className="mt-4 flex items-center flex-wrap justify-start gap-2 overflow-auto py-1">
           {images.map((image, index) => {
             const isActive = index === imageIndex;
 

@@ -60,9 +60,9 @@ export default async function ProductPage(props: {
   const productJsonLd = {
     "@context": "https://schema.org",
     "@type": "Product",
-    name: product.title,
-    description: product.description,
-    image: product.featuredImage.url,
+    name: product.title || "",
+    description: product.description || "",
+    image: product.featuredImage?.url || "",
     offers: {
       "@type": "AggregateOffer",
       availability: product.availableForSale
@@ -83,39 +83,55 @@ export default async function ProductPage(props: {
         }}
       />
       <div
-        className="mx-auto max-w-(--breakpoint-2xl) px-4 py-8"
+        className="relative overflow-hidden"
         style={{ backgroundColor: "var(--surface)", minHeight: "100vh" }}
       >
+        {/* Ambient glow */}
         <div
-          className="flex flex-col rounded-xl p-8 md:p-12 lg:flex-row lg:gap-8"
+          className="pointer-events-none absolute inset-0"
           style={{
-            backgroundColor: "var(--surface-container)",
-            border: "1px solid rgba(42,58,92,0.15)",
-            backdropFilter: "blur(20px)",
+            background:
+              "radial-gradient(ellipse 60% 70% at 75% 50%, rgba(142,213,255,0.06) 0%, transparent 70%)",
           }}
-        >
-          <div className="h-full w-full basis-full lg:basis-4/6">
-            <Suspense
-              fallback={
-                <div className="relative aspect-square h-full max-h-[550px] w-full overflow-hidden" />
-              }
-            >
-              <Gallery
-                images={product.images.slice(0, 5).map((image: Image) => ({
-                  src: image.url,
-                  altText: image.altText,
-                }))}
-              />
-            </Suspense>
+        />
+        {/* HUD grid */}
+        <div
+          className="pointer-events-none absolute inset-0 opacity-[0.025]"
+          style={{
+            backgroundImage:
+              "linear-gradient(var(--on-surface) 1px, transparent 1px), linear-gradient(90deg, var(--on-surface) 1px, transparent 1px)",
+            backgroundSize: "60px 60px",
+          }}
+        />
+
+        <div className="relative mx-auto max-w-7xl px-6 py-20 lg:px-12">
+          <div className="flex flex-col items-center gap-12 lg:flex-row lg:gap-16">
+            {/* ── Left: content ── */}
+            <div className="w-full lg:basis-3/5">
+              <Suspense fallback={null}>
+                <ProductDescription product={product} />
+              </Suspense>
+            </div>
+
+            {/* ── Right: image ── */}
+            <div className="w-full lg:basis-2/5">
+              <Suspense
+                fallback={
+                  <div className="relative aspect-square w-full max-w-[480px] overflow-hidden rounded-2xl" />
+                }
+              >
+                <Gallery
+                  images={product.images.slice(0, 5).map((image: Image) => ({
+                    src: image.url,
+                    altText: image.altText,
+                  }))}
+                />
+              </Suspense>
+            </div>
           </div>
 
-          <div className="basis-full lg:basis-2/6">
-            <Suspense fallback={null}>
-              <ProductDescription product={product} />
-            </Suspense>
-          </div>
+          <RelatedProducts id={product.id} />
         </div>
-        <RelatedProducts id={product.id} />
       </div>
       <Footer />
     </ProductProvider>
@@ -129,7 +145,12 @@ async function RelatedProducts({ id }: { id: string }) {
 
   return (
     <div className="py-8">
-      <h2 className="mb-4 text-2xl font-bold text-white">Related Products</h2>
+      <h2
+        className="mb-4 text-2xl font-bold"
+        style={{ color: "var(--on-surface)" }}
+      >
+        Related Products
+      </h2>
       <ul className="flex w-full gap-4 overflow-x-auto pt-1">
         {relatedProducts.map((product) => (
           <li

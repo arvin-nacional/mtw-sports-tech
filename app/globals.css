@@ -50,6 +50,24 @@ html {
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
 }
+/* Override @tailwindcss/typography prose colors to use design tokens */
+.prose {
+  --tw-prose-body: var(--on-surface);
+  --tw-prose-headings: var(--on-surface);
+  --tw-prose-lead: var(--on-surface);
+  --tw-prose-links: var(--primary);
+  --tw-prose-bold: var(--on-surface);
+  --tw-prose-counters: var(--on-surface);
+  --tw-prose-bullets: var(--on-surface);
+  --tw-prose-hr: rgba(42, 58, 92, 0.3);
+  --tw-prose-quotes: var(--on-surface);
+  --tw-prose-quote-borders: var(--primary);
+  --tw-prose-captions: var(--on-surface);
+  --tw-prose-code: var(--primary);
+  --tw-prose-th-borders: rgba(42, 58, 92, 0.3);
+  --tw-prose-td-borders: rgba(42, 58, 92, 0.2);
+}
+
 /* Product card hover — tonal bg shift, no scale (per DESIGN.md) */
 .product-card {
   background-color: var(--surface-container);
