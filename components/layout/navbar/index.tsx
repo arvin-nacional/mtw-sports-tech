@@ -1,7 +1,5 @@
 import CartModal from "components/cart/modal";
 import LogoSquare from "components/logo-square";
-import { getMenu } from "lib/shopify";
-import { Menu } from "lib/shopify/types";
 import Link from "next/link";
 import { Suspense } from "react";
 import MobileMenu from "./mobile-menu";
@@ -9,8 +7,15 @@ import Search, { SearchSkeleton } from "./search";
 
 const { SITE_NAME } = process.env;
 
+const NAV_LINKS = [
+  { title: "Home", path: "/" },
+  // { title: "Products", path: "/search" },
+  { title: "Solutions", path: "/search" },
+  // { title: "Contact", path: "/pages/contact" },
+];
+
 export async function Navbar() {
-  const menu = await getMenu("next-js-frontend-header-menu");
+  const menu = NAV_LINKS;
 
   return (
     <nav
@@ -42,21 +47,19 @@ export async function Navbar() {
               {SITE_NAME}
             </div>
           </Link>
-          {menu.length ? (
-            <ul className="hidden gap-6 text-sm md:flex md:items-center">
-              {menu.map((item: Menu) => (
-                <li key={item.title}>
-                  <Link
-                    href={item.path}
-                    prefetch={true}
-                    className="nav-link underline-offset-4"
-                  >
-                    {item.title}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          ) : null}
+          <ul className="hidden gap-6 text-sm md:flex md:items-center">
+            {menu.map((item) => (
+              <li key={item.title}>
+                <Link
+                  href={item.path}
+                  prefetch={true}
+                  className="nav-link underline-offset-4"
+                >
+                  {item.title}
+                </Link>
+              </li>
+            ))}
+          </ul>
         </div>
         <div className="hidden justify-center md:flex md:w-1/3">
           <Suspense fallback={<SearchSkeleton />}>
